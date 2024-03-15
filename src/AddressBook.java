@@ -1,38 +1,65 @@
-public class AddressBook {
-    private String firstName;
-    private String lastName;
-    private String address;
-    private String city;
-    private String state;
-    private String zip;
-    private String phoneNumber;
-    private String email;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.List;
 
-    public AddressBook(String firstName, String lastName, String address, String city, String state, String zip, String phoneNumber, String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.city = city;
-        this.state = state;
-        this.zip = zip;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
+class Contact {
+    String Name ;
+    String phoneNumber;
+
+    public Contact(String Name , String phoneNumber){
+        this.Name = Name;
+        this.phoneNumber=phoneNumber;
+    }
+    public String getName(){
+        return Name;
     }
 
-    public void displayContact() {
-        System.out.println("Contact details:");
-        System.out.println("Name:" + firstName + "" + lastName);
-        System.out.println("Address:" + address);
-        System.out.println("City:" + city);
-        System.out.println("State :" + state);
-        System.out.println("Zip :" + zip);
-        System.out.println("phoneNumber:" + phoneNumber);
-        System.out.println("Email: " + email);
+    public String getPhoneNumber(){
+        return phoneNumber;
     }
+    public String toString(){
+        return "Name" +Name+ ",phoneNumber" +phoneNumber ;
+    }
+}
+class AddressBook{
+    private List<Contact> contacts;
 
-    public static void main(String args[]) {
-        AddressBook sampleContact = new AddressBook("John", "Singh", "Govandi", "Mumbai", "Maharshtra", "123", "8369326000", "aditi@gmail.com");
-        sampleContact.displayContact();
+    public AddressBook(){
+        contacts = new ArrayList<>();
+    }
+    public void addContact (Contact contact){
+        contacts.add(contact);
+    }
+    public void displayContact(){
+        if (contacts. isEmpty()){
+            System.out.println("Address Book is Empty:");
+        } else {
+            System.out.println("Address in contact book:");
+
+            for(Contact contacts : contacts){
+                System.out.println(contacts);
+            }
+        }
+    }
+}
+class AddressBookMain{
+    public static void main(String args[]){
+        Scanner scanner = new Scanner (System.in);
+        AddressBook addressBook = new AddressBook();
+
+        System .out.println("Enter the Name:");
+        String Name = scanner.nextLine();
+
+        System.out.println("Enter the Phone Number:");
+        String phoneNumber = scanner.nextLine();
+
+        Contact newContact = new Contact(Name  , phoneNumber);
+        addressBook.addContact (newContact);
+
+        addressBook.displayContact();
+
+        scanner.close();
+
     }
 }
 
