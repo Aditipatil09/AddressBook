@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,10 +14,6 @@ class Contact {
 
     public String getName() {
         return name;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     public String getPhoneNumber() {
@@ -40,11 +37,13 @@ class AddressBook {
         contacts.add(contact);
     }
 
-    public void editContact(String name, String newPhoneNumber) {
-        for (Contact contact : contacts) {
+    public void deleteContact(String name) {
+        Iterator<Contact> iterator = contacts.iterator();
+        while (iterator.hasNext()) {
+            Contact contact = iterator.next();
             if (contact.getName().equalsIgnoreCase(name)) {
-                contact.setPhoneNumber(newPhoneNumber);
-                System.out.println("Contact updated successfully.");
+                iterator.remove();
+                System.out.println("Contact deleted successfully.");
                 return;
             }
         }
@@ -62,7 +61,8 @@ class AddressBook {
         }
     }
 }
-class AddressBookMain {
+
+ class AddressBookMain {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         AddressBook addressBook = new AddressBook();
@@ -80,12 +80,10 @@ class AddressBookMain {
         addressBook.displayContacts();
 
 
-        System.out.println("Enter the name of the contact you want to edit:");
-        String editName = scanner.nextLine();
-        System.out.println("Enter the new phone number:");
-        String newPhoneNumber = scanner.nextLine();
+        System.out.println("Enter the name of the contact you want to delete:");
+        String deleteName = scanner.nextLine();
 
-        addressBook.editContact(editName, newPhoneNumber);
+        addressBook.deleteContact(deleteName);
 
 
         addressBook.displayContacts();
