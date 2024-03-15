@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -38,16 +37,7 @@ class AddressBook {
     }
 
     public void deleteContact(String name) {
-        Iterator<Contact> iterator = contacts.iterator();
-        while (iterator.hasNext()) {
-            Contact contact = iterator.next();
-            if (contact.getName().equalsIgnoreCase(name)) {
-                iterator.remove();
-                System.out.println("Contact deleted successfully.");
-                return;
-            }
-        }
-        System.out.println("Contact not found.");
+        contacts.removeIf(contact -> contact.getName().equalsIgnoreCase(name));
     }
 
     public void displayContacts() {
@@ -68,13 +58,20 @@ class AddressBook {
         AddressBook addressBook = new AddressBook();
 
 
-        System.out.println("Enter name:");
-        String name = scanner.nextLine();
-        System.out.println("Enter phone number:");
-        String phoneNumber = scanner.nextLine();
+        boolean addMoreContacts = true;
+        while (addMoreContacts) {
+            System.out.println("Enter name:");
+            String name = scanner.nextLine();
+            System.out.println("Enter phone number:");
+            String phoneNumber = scanner.nextLine();
 
-        Contact newContact = new Contact(name, phoneNumber);
-        addressBook.addContact(newContact);
+            Contact newContact = new Contact(name, phoneNumber);
+            addressBook.addContact(newContact);
+
+            System.out.println("Do you want to add another contact? (yes/no)");
+            String choice = scanner.nextLine().toLowerCase();
+            addMoreContacts = choice.equals("yes");
+        }
 
 
         addressBook.displayContacts();
@@ -82,7 +79,6 @@ class AddressBook {
 
         System.out.println("Enter the name of the contact you want to delete:");
         String deleteName = scanner.nextLine();
-
         addressBook.deleteContact(deleteName);
 
 
@@ -91,5 +87,3 @@ class AddressBook {
         scanner.close();
     }
 }
-
-
