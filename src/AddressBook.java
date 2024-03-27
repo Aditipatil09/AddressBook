@@ -1,28 +1,64 @@
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
-class AddressBook {
-    private List<Contact> contacts;
+class Person {
+    private String name;
 
-    public AddressBook() {
-        contacts = new ArrayList<>();
+    public Person(String name) {
+        this.name = name;
     }
 
-    public void addContact(Contact contact) {
-        contacts.add(contact);
+    public String getName() {
+        return name;
     }
 
-    public void deleteContact(String name) {
-        contacts.removeIf(contact -> contact.getName().equalsIgnoreCase(name));
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        Person person = (Person) obj;
+        return name.equals(person.name);
     }
 
-    public void displayContacts() {
-        if (contacts.isEmpty()) {
-            System.out.println("Address book is empty.");
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
+}
+
+class AddressBook1 {
+    private Set<Person> persons = new HashSet<>();
+
+    public void addPerson(Person person) {
+        if (persons.stream().anyMatch(p -> p.equals(person))) {
+            System.out.println("Duplicate entry: " + person.getName());
         } else {
-            System.out.println("Contacts in Address Book:");
-            for (Contact contact : contacts) {
-                System.out.println(contact);
-            }
+            persons.add(person);
+            System.out.println("Added: " + person.getName());
         }
+    }
+
+    public void displayAddressBook1() {
+        System.out.println("Address Book:");
+        for (Person person : persons) {
+            System.out.println(person.getName());
+        }
+    }
+}
+
+ class Main {
+    public static void main(String[] args) {
+        AddressBook1 addressBook1 = new AddressBook1();
+
+        // Adding persons to the address book
+        addressBook1.addPerson(new Person("Aditi"));
+        addressBook1.addPerson(new Person("Ankita"));
+        addressBook1.addPerson(new Person("Aditi")); // Duplicate entry
+        addressBook1.addPerson(new Person("pooja"));
+
+        // Display the address book
+        addressBook1.displayAddressBook1();
     }
 }

@@ -3,27 +3,27 @@ import java.util.Map;
 import java.util.Scanner;
 
 class AddressBookSystem {
-    private Map<String, AddressBook> addressBooks;
+    private Map<String, AddressBook1> addressBooks;
 
     public AddressBookSystem() {
         addressBooks = new HashMap<>();
     }
 
     public void addAddressBook(String name) {
-        addressBooks.put(name, new AddressBook());
+        addressBooks.put(name, new AddressBook1());
     }
 
     public void addContact(String addressBookName, Contact contact) {
-        AddressBook addressBook = addressBooks.get(addressBookName);
-        if (addressBook != null) {
-            addressBook.addContact(contact);
+        AddressBook1 addressBook1 = addressBooks.get(addressBookName);
+        if (addressBook1 != null) {
+            addressBook1.addContact(contact);
         } else {
             System.out.println("Address book with name '" + addressBookName + "' not found.");
         }
     }
 
     public void deleteContact(String addressBookName, String contactName) {
-        AddressBook addressBook = addressBooks.get(addressBookName);
+        AddressBook1 addressBook = addressBooks.get(addressBookName);
         if (addressBook != null) {
             addressBook.deleteContact(contactName);
         } else {
@@ -32,7 +32,7 @@ class AddressBookSystem {
     }
 
     public void displayContacts(String addressBookName) {
-        AddressBook addressBook = addressBooks.get(addressBookName);
+        AddressBook1 addressBook = addressBooks.get(addressBookName);
         if (addressBook != null) {
             addressBook.displayContacts();
         } else {
