@@ -3,27 +3,27 @@ import java.util.Map;
 import java.util.Scanner;
 
 class AddressBookSystem {
-    private Map<String, AddressBook> addressBooks;
+    private Map<String, AddressBook1> addressBooks;
 
     public AddressBookSystem() {
         addressBooks = new HashMap<>();
     }
 
     public void addAddressBook(String name) {
-        addressBooks.put(name, new AddressBook());
+        addressBooks.put(name, new AddressBook1());
     }
 
-    public void addContact(String addressBookName, Contact contact) {
-        AddressBook addressBook = addressBooks.get(addressBookName);
+    public void addContact(String addressBookName, Person person) {
+        AddressBook1 addressBook = addressBooks.get(addressBookName);
         if (addressBook != null) {
-            addressBook.addContact(contact);
+            addressBook.addPerson(person);
         } else {
             System.out.println("Address book with name '" + addressBookName + "' not found.");
         }
     }
 
     public void deleteContact(String addressBookName, String contactName) {
-        AddressBook addressBook = addressBooks.get(addressBookName);
+        AddressBook1 addressBook = addressBooks.get(addressBookName);
         if (addressBook != null) {
             addressBook.deleteContact(contactName);
         } else {
@@ -32,9 +32,9 @@ class AddressBookSystem {
     }
 
     public void displayContacts(String addressBookName) {
-        AddressBook addressBook = addressBooks.get(addressBookName);
+        AddressBook1 addressBook = addressBooks.get(addressBookName);
         if (addressBook != null) {
-            addressBook.displayContacts();
+            addressBook.displayAddressBook1();
         } else {
             System.out.println("Address book with name '" + addressBookName + "' not found.");
         }
@@ -74,8 +74,8 @@ class AddressBookSystem {
                     String name = scanner.nextLine();
                     System.out.println("Enter phone number:");
                     String phoneNumber = scanner.nextLine();
-                    Contact contact = new Contact(name, phoneNumber);
-                    addressBookSystem.addContact(selectedAddressBook, contact);
+                    Person person = new Person(name);
+                    addressBookSystem.addContact(selectedAddressBook, person);
                     break;
                 case 2:
                     System.out.println("Enter the name of the contact you want to delete:");
