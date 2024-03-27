@@ -46,9 +46,12 @@ class AddressBook1 {
             System.out.println(person.getName());
         }
     }
+    public void deleteContact(String name) {
+        persons.removeIf(contact ->contact.getName().equalsIgnoreCase(name));
+    }
 }
 
- class Main {
+class Main {
     public static void main(String[] args) {
         AddressBook1 addressBook1 = new AddressBook1();
 
@@ -56,7 +59,7 @@ class AddressBook1 {
         addressBook1.addPerson(new Person("Aditi"));
         addressBook1.addPerson(new Person("Ankita"));
         addressBook1.addPerson(new Person("Aditi")); // Duplicate entry
-        addressBook1.addPerson(new Person("pooja"));
+        addressBook1.addPerson(new Person("Pooja"));
 
         // Display the address book
         addressBook1.displayAddressBook1();
