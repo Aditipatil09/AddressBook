@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,7 +47,10 @@ class AddressBook {
     }
 }
 
-public class Main {
+
+
+
+class Main {
     public static List<Person> searchPersonInCityOrState(List<AddressBook> addressBooks, String cityOrState) {
         return addressBooks.stream()
                 .flatMap(addressBook -> addressBook.getPersons().stream())
@@ -58,12 +60,15 @@ public class Main {
 
     public static void main(String[] args) {
         AddressBook addressBook1 = new AddressBook();
+
         addressBook1.addPerson(new Person("Aditi", "Mumbai", "MH"));
         addressBook1.addPerson(new Person("Ankita", "Nagpur", "Delhi"));
 
         AddressBook addressBook2 = new AddressBook();
         addressBook2.addPerson(new Person("Aditi", "Pune", "MH"));
         addressBook2.addPerson(new Person("Pooja", "Mumbai", "NY"));
+
+
 
         List<AddressBook> addressBooks = List.of(addressBook1, addressBook2);
 
