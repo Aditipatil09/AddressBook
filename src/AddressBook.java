@@ -46,10 +46,6 @@ class AddressBook {
         return persons;
     }
 }
-
-
-
-
 class Main {
     public static List<Person> searchPersonInCityOrState(List<AddressBook> addressBooks, String cityOrState) {
         return addressBooks.stream()
