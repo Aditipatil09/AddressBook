@@ -1,67 +1,83 @@
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
-class Person {
+
+class Person  {
     private String name;
+    private String city;
+    private String state;
 
-    public Person(String name) {
+    public Person(String name, String city, String state) {
         this.name = name;
+        this.city = city;
+        this.state = state;
     }
 
     public String getName() {
         return name;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null || getClass() != obj.getClass())
-            return false;
-        Person person = (Person) obj;
-        return name.equals(person.name);
+    public String getCity() {
+        return city;
     }
 
-    @Override
-    public int hashCode() {
-        return name.hashCode();
+    public String getState() {
+        return state;
     }
-}
-
 class AddressBook1 {
-    private Set<Person> persons = new HashSet<>();
+    private List<Person> contacts;
 
-    public void addPerson(Person person) {
-        if (persons.stream().anyMatch(p -> p.equals(person))) {
-            System.out.println("Duplicate entry: " + person.getName());
-        } else {
-            persons.add(person);
-            System.out.println("Added: " + person.getName());
-        }
+    public AddressBook1() {
+        this.contacts = new ArrayList<>();
     }
 
-    public void displayAddressBook1() {
-        System.out.println("Address Book:");
-        for (Person person : persons) {
-            System.out.println(person.getName());
-        }
+    public void addContact(Person person) {
+        contacts.add(person);
+    }
+
+    public List<Person> getContacts() {
+        return contacts;
     }
     public void deleteContact(String name) {
-        persons.removeIf(contact ->contact.getName().equalsIgnoreCase(name));
+        Iterator<Person> iterator = contacts.iterator();
+        while (iterator.hasNext()) {
+            Person person = iterator.next();
+            if (person.getName().equalsIgnoreCase(name)) {
+                iterator.remove();
+                System.out.println("Contact deleted successfully.");
+                return;
+            }
+        }
+        System.out.println("Contact not found.");
     }
 }
 
-class Main {
+class AddressBook {
+
+
+    public static List<Person> searchPersonInCityOrState(List<AddressBook1> addressBooks, String city, String state) {
+        return addressBooks.stream()
+                .flatMap(addressBook -> addressBook.getContacts().stream())
+                .filter(person -> person.getCity().equalsIgnoreCase(city) || person.getState().equalsIgnoreCase(state))
+                .collect(Collectors.toList());
+    }
+
     public static void main(String[] args) {
+
         AddressBook1 addressBook1 = new AddressBook1();
+        addressBook1.addContact(new Person("Aditi", "Mumbai", "Maharashtra"));
+        addressBook1.addContact(new Person("Ankita", "Navi Mumbai", "Mh"));
 
-        // Adding persons to the address book
-        addressBook1.addPerson(new Person("Aditi"));
-        addressBook1.addPerson(new Person("Ankita"));
-        addressBook1.addPerson(new Person("Aditi")); // Duplicate entry
-        addressBook1.addPerson(new Person("Pooja"));
+        AddressBook1 addressBook2 = new AddressBook1();
+        addressBook2.addContact(new Person("Atharva", "Pune", "Maharshtra"));
+        addressBook2.addContact(new Person("Pooja", "Nagpur", "Delhi"));
 
-        // Display the address book
-        addressBook1.displayAddressBook1();
+
+        List<AddressBook1> addressBooks = Arrays.asList(addressBook1, addressBook2);
+        List<Person> searchResult = searchPersonInCityOrState(addressBooks, "Navi Mumbai", "Maharashtra");
+
+
+        System.out.println("Search Result:");
+        searchResult.forEach(person -> System.out.println(person.getName()));
     }
 }
