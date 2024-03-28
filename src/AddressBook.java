@@ -1,6 +1,5 @@
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 class Person {
@@ -32,43 +31,30 @@ class Person {
     }
 }
 
-class AddressBook {
-    private List<Person> persons;
-
-    public AddressBook() {
-        this.persons = new ArrayList<>();
-    }
-
-    public void addPerson(Person person) {
-        persons.add(person);
-    }
-
-    public List<Person> getPersons() {
-        return persons;
-    }
-}
-
- class Main {
-    public static List<Person> searchPersonInCityOrState(List<AddressBook> addressBooks, String cityOrState) {
-        return addressBooks.stream()
-                .flatMap(addressBook -> addressBook.getPersons().stream())
-                .filter(person -> person.getCity().equalsIgnoreCase(cityOrState) || person.getState().equalsIgnoreCase(cityOrState))
-                .collect(Collectors.toList());
-    }
-
+class Main {
     public static void main(String[] args) {
-        AddressBook addressBook1 = new AddressBook();
-        addressBook1.addPerson(new Person("Aditi", "Pune", "MH"));
-        addressBook1.addPerson(new Person("Alice", "Mumbai", "Delhi"));
+        List<Person> persons = new ArrayList<>();
+        persons.add(new Person("Aditi", "Mumbai", "MH"));
+        persons.add(new Person("Ankita", "Pune", "Gj"));
+        persons.add(new Person("Pooja", "Nagpur", "IL"));
+        persons.add(new Person("David", "Delhi", "NY"));
 
-        AddressBook addressBook2 = new AddressBook();
-        addressBook2.addPerson(new Person("Aditi", "Mumbai", "MH"));
-        addressBook2.addPerson(new Person("Pooja", "New York", "NY"));
+        // Group persons by city
+        Map<String, List<Person>> cityPersonMap = persons.stream()
+                .collect(Collectors.groupingBy(Person::getCity));
 
-        List<AddressBook> addressBooks = List.of(addressBook1, addressBook2);
+        System.out.println("Persons by City:");
+        for (Map.Entry<String, List<Person>> entry : cityPersonMap.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
 
-        List<Person> searchResult = searchPersonInCityOrState(addressBooks, "NY");
-        System.out.println("Search Result:");
-        searchResult.forEach(System.out::println);
+
+        Map<String, List<Person>> statePersonMap = persons.stream()
+                .collect(Collectors.groupingBy(Person::getState));
+
+        System.out.println("\nPersons by State:");
+        for (Map.Entry<String, List<Person>> entry : statePersonMap.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
     }
 }
