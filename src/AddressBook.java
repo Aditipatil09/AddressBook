@@ -1,4 +1,3 @@
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,30 +29,29 @@ class Person {
         return "Person{name='" + name + "', city='" + city + "', state='" + state + "'}";
     }
 }
-
-class Main {
+ class Main {
     public static void main(String[] args) {
         List<Person> persons = new ArrayList<>();
-        persons.add(new Person("Aditi", "Mumbai", "MH"));
-        persons.add(new Person("Ankita", "Pune", "Gj"));
-        persons.add(new Person("Pooja", "Nagpur", "IL"));
-        persons.add(new Person("David", "Delhi", "NY"));
+        persons.add(new Person("Alice", "Navi Mumbai", "MH"));
+        persons.add(new Person("Aditi", "Mumbai", "Gj"));
+        persons.add(new Person("Bob", "Nagpur", "Delhi"));
+        persons.add(new Person("Pooja", "Pune", "NY"));
 
-        // Group persons by city
-        Map<String, List<Person>> cityPersonMap = persons.stream()
-                .collect(Collectors.groupingBy(Person::getCity));
+        // Count persons by city
+        Map<String, Long> cityPersonCount = persons.stream()
+                .collect(Collectors.groupingBy(Person::getCity, Collectors.counting()));
 
-        System.out.println("Persons by City:");
-        for (Map.Entry<String, List<Person>> entry : cityPersonMap.entrySet()) {
+        System.out.println("Count of Persons by City:");
+        for (Map.Entry<String, Long> entry : cityPersonCount.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue());
         }
 
+        // Count persons by state
+        Map<String, Long> statePersonCount = persons.stream()
+                .collect(Collectors.groupingBy(Person::getState, Collectors.counting()));
 
-        Map<String, List<Person>> statePersonMap = persons.stream()
-                .collect(Collectors.groupingBy(Person::getState));
-
-        System.out.println("\nPersons by State:");
-        for (Map.Entry<String, List<Person>> entry : statePersonMap.entrySet()) {
+        System.out.println("\nCount of Persons by State:");
+        for (Map.Entry<String, Long> entry : statePersonCount.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue());
         }
     }
