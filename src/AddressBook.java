@@ -1,8 +1,9 @@
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
-
-class Person  {
+class Person {
     private String name;
     private String city;
     private String state;
@@ -24,60 +25,50 @@ class Person  {
     public String getState() {
         return state;
     }
-class AddressBook1 {
-    private List<Person> contacts;
 
-    public AddressBook1() {
-        this.contacts = new ArrayList<>();
-    }
-
-    public void addContact(Person person) {
-        contacts.add(person);
-    }
-
-    public List<Person> getContacts() {
-        return contacts;
-    }
-    public void deleteContact(String name) {
-        Iterator<Person> iterator = contacts.iterator();
-        while (iterator.hasNext()) {
-            Person person = iterator.next();
-            if (person.getName().equalsIgnoreCase(name)) {
-                iterator.remove();
-                System.out.println("Contact deleted successfully.");
-                return;
-            }
-        }
-        System.out.println("Contact not found.");
+    @Override
+    public String toString() {
+        return "Person{name='" + name + "', city='" + city + "', state='" + state + "'}";
     }
 }
 
 class AddressBook {
+    private List<Person> persons;
 
+    public AddressBook() {
+        this.persons = new ArrayList<>();
+    }
 
-    public static List<Person> searchPersonInCityOrState(List<AddressBook1> addressBooks, String city, String state) {
+    public void addPerson(Person person) {
+        persons.add(person);
+    }
+
+    public List<Person> getPersons() {
+        return persons;
+    }
+}
+
+public class Main {
+    public static List<Person> searchPersonInCityOrState(List<AddressBook> addressBooks, String cityOrState) {
         return addressBooks.stream()
-                .flatMap(addressBook -> addressBook.getContacts().stream())
-                .filter(person -> person.getCity().equalsIgnoreCase(city) || person.getState().equalsIgnoreCase(state))
+                .flatMap(addressBook -> addressBook.getPersons().stream())
+                .filter(person -> person.getCity().equalsIgnoreCase(cityOrState) || person.getState().equalsIgnoreCase(cityOrState))
                 .collect(Collectors.toList());
     }
 
     public static void main(String[] args) {
+        AddressBook addressBook1 = new AddressBook();
+        addressBook1.addPerson(new Person("Aditi", "Mumbai", "MH"));
+        addressBook1.addPerson(new Person("Ankita", "Nagpur", "Delhi"));
 
-        AddressBook1 addressBook1 = new AddressBook1();
-        addressBook1.addContact(new Person("Aditi", "Mumbai", "Maharashtra"));
-        addressBook1.addContact(new Person("Ankita", "Navi Mumbai", "Mh"));
+        AddressBook addressBook2 = new AddressBook();
+        addressBook2.addPerson(new Person("Aditi", "Pune", "MH"));
+        addressBook2.addPerson(new Person("Pooja", "Mumbai", "NY"));
 
-        AddressBook1 addressBook2 = new AddressBook1();
-        addressBook2.addContact(new Person("Atharva", "Pune", "Maharshtra"));
-        addressBook2.addContact(new Person("Pooja", "Nagpur", "Delhi"));
+        List<AddressBook> addressBooks = List.of(addressBook1, addressBook2);
 
-
-        List<AddressBook1> addressBooks = Arrays.asList(addressBook1, addressBook2);
-        List<Person> searchResult = searchPersonInCityOrState(addressBooks, "Navi Mumbai", "Maharashtra");
-
-
+        List<Person> searchResult = searchPersonInCityOrState(addressBooks, "NY");
         System.out.println("Search Result:");
-        searchResult.forEach(person -> System.out.println(person.getName()));
+        searchResult.forEach(System.out::println);
     }
 }
